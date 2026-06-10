@@ -15,7 +15,7 @@ use OpenApi\Attributes as OA;
     contact: new OA\Contact(name: 'Swagger API Team'),
 )]
 #[OA\Server(
-    url: 'http://127.0.0.1:8000',
+    url: 'http://127.0.0.1:81',
     description: 'API server',
 )]
 class Controller extends BaseController
