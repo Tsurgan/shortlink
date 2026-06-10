@@ -1,0 +1,164 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Short link service",
+        "description": "Provides short links",
+        "contact": {
+            "name": "Swagger API Team"
+        },
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "API server"
+        }
+    ],
+    "paths": {
+        "/api/links": {
+            "post": {
+                "tags": [
+                    "Links"
+                ],
+                "summary": "Create link",
+                "description": "Creates a link",
+                "operationId": "4ba9ce3a76a188f01bd1fb2561ac13e5",
+                "requestBody": {
+                    "description": "Link",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "url"
+                                ],
+                                "properties": {
+                                    "url": {
+                                        "type": "string",
+                                        "example": "https://www.google.com/"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Link created successfully"
+                    },
+                    "422": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        },
+        "/{code}": {
+            "get": {
+                "tags": [
+                    "Links"
+                ],
+                "summary": "Redirect to link by code",
+                "description": "Redirects to link",
+                "operationId": "8352d370f9470ba3688510d7eb0ba84f",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "path",
+                        "description": "Link code",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirect",
+                        "headers": {
+                            "Location": {
+                                "description": "The URL the client is redirected to",
+                                "schema": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Link not found"
+                    }
+                }
+            }
+        },
+        "/api/links/{code}/stats": {
+            "get": {
+                "tags": [
+                    "Links"
+                ],
+                "summary": "Get link stats",
+                "description": "Returns link statistics",
+                "operationId": "b4384ad48f6a83820e3c93e5f65b694d",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "path",
+                        "description": "Link code",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Link"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Link not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Link": {
+                "title": "Link",
+                "description": "Link model",
+                "required": [
+                    "url",
+                    "code"
+                ],
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "example": "https://www.google.com/"
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "10jnbg"
+                    },
+                    "clicks": {
+                        "type": "integer",
+                        "example": 0
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Links",
+            "description": "Links"
+        }
+    ]
+}
